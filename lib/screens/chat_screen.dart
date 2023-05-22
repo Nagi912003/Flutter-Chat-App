@@ -1,8 +1,8 @@
 import 'package:chat_app/widgets/chat/messages.dart';
 import 'package:chat_app/widgets/chat/new_message.dart';
+import 'package:chat_app/widgets/image_picker/user_image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ChatScreen extends StatelessWidget {
   const ChatScreen({Key? key}) : super(key: key);
@@ -30,7 +30,35 @@ class ChatScreen extends StatelessWidget {
         child: Column(
           children: [
             const DrawerHeader(
-              child: Text('Hello World!'),
+              child: Row(
+                children: [
+                  UserImagePicker(),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'User Name',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        'User Email',
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.deepPurple,
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
             ),
             ListTile(
               leading: const Icon(Icons.logout),
