@@ -18,6 +18,26 @@ class _AuthScreenState extends State<AuthScreen> {
 
   var _isLoading = false;
 
+  Future<UserCredential> login(String email, String password) async {
+    return await _auth.signInWithEmailAndPassword(
+        email: email, password: password);
+  }
+  Future<UserCredential> signup(String email, String password, String username) async {
+    UserCredential authResult = await _auth.createUserWithEmailAndPassword(
+        email: email, password: password);
+
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(authResult.user!.uid)
+        .set({
+      'username': username,
+      'email': email,
+      'image_url': '',
+      'id': authResult.user!.uid,
+    });
+    return authResult;
+  }
+
   void _submitAuthForm(
     String email,
     String password,
@@ -33,20 +53,12 @@ class _AuthScreenState extends State<AuthScreen> {
       });
       if (isLogin) {
         // Log user in
-        authResult = await _auth.signInWithEmailAndPassword(
-            email: email, password: password);
+        authResult = await login(email, password);
+
       } else {
         // Sign user up
-        authResult = await _auth.createUserWithEmailAndPassword(
-            email: email, password: password);
-
-        await FirebaseFirestore.instance
-            .collection('users')
-            .doc(authResult.user!.uid)
-            .set({
-          'username': username,
-          'email': email,
-        });
+        authResult = await signup(email, password, username);
+        FirebaseAuth.instance.currentUser!.updateDisplayName(username);
       }
     } on PlatformException catch (error) {
       var message = 'An error occurred, please check your credentials!';

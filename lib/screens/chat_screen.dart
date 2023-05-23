@@ -16,43 +16,43 @@ class ChatScreen extends StatelessWidget {
           style: TextStyle(color: Theme.of(context).primaryColor),
         ),
       ),
-      body: Container(
-        child: const Column(
-          children: [
-            Expanded(
-              child: Messages(),
-            ),
-            NewMessage(),
-          ],
-        ),
+      body: const Column(
+        children: [
+          Expanded(
+            child: Messages(),
+          ),
+          NewMessage(),
+        ],
       ),
       drawer: Drawer(
         child: Column(
+          // mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const DrawerHeader(
+            DrawerHeader(
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  UserImagePicker(),
-                  SizedBox(
+                  const UserImagePicker(),
+                  const SizedBox(
                     width: 10,
                   ),
                   Column(
+                    // mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'User Name',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        'User Email',
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.deepPurple,
+                      const FetchedUserNameWidget(),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.3,
+                        child: Text(
+                          FirebaseAuth.instance.currentUser!.email != null
+                              ? FirebaseAuth.instance.currentUser!.email!
+                              : 'User Email',
+                          style: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.deepPurple,
+                          ),
                         ),
                       ),
                     ],
@@ -73,3 +73,26 @@ class ChatScreen extends StatelessWidget {
     );
   }
 }
+
+class FetchedUserNameWidget extends StatefulWidget {
+  const FetchedUserNameWidget({Key? key}) : super(key: key);
+
+  @override
+  State<FetchedUserNameWidget> createState() => _FetchedUserNameWidgetState();
+}
+
+class _FetchedUserNameWidgetState extends State<FetchedUserNameWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      FirebaseAuth.instance.currentUser!.displayName != null
+          ? FirebaseAuth.instance.currentUser!.displayName!
+          : 'User Name...',
+      style: const TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+      ),
+    );
+  }
+}
+
