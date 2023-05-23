@@ -40,6 +40,17 @@ dependencies:
   firebase_auth: ^4.6.1
   image_picker: ^0.8.7+5
   firebase_storage: ^11.2.1
+  flutter_native_splash: ^2.3.0
+
+flutter_native_splash:
+  #adding white color to the splash screen
+  color: "#ffffff"
+  #adding the image to the splash screen
+  image: assets/images/splash.png
+  #adding the background color to the splash screen
+  background_color: "#ffffff"
+  android_gravity: center
+
 
 dev_dependencies:
   flutter_test:
@@ -93,3 +104,5 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+
